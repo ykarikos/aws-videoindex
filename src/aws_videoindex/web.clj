@@ -1,4 +1,4 @@
-(ns clojure-getting-started.web
+(ns aws-videoindex.web
   (:require [compojure.core :refer :all]
             [compojure.handler :refer [site]]
             [compojure.route :as route]

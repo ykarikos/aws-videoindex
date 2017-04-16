@@ -1,6 +1,5 @@
-(defproject clojure-getting-started "1.0.0-SNAPSHOT"
-  :description "Demo Clojure web app"
-  :url "http://clojure-getting-started.herokuapp.com"
+(defproject aws-videoindex "1.0.0-SNAPSHOT"
+  :description "AWS Videoindex"
   :license {:name "Eclipse Public License v1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
@@ -13,8 +12,8 @@
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.3.1"]
             [lein-ring "0.11.0"]]
-  :main ^:skip-aot clojure-getting-started.web
-  :ring {:handler clojure-getting-started.web/app}
+  :main ^:skip-aot aws-videoindex.web
+  :ring {:handler aws-videoindex.web/app}
   :hooks [environ.leiningen.hooks]
-  :uberjar-name "clojure-getting-started-standalone.jar"
+  :uberjar-name "aws-videoindex-standalone.jar"
   :profiles {:production {:env {:production true}}})
