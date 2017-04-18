@@ -9,12 +9,12 @@
   (let [suffix (get-file-suffix file-name)
         new-file-name (str date "_" title suffix)
         signed-url (s3/generate-presigned-url
-                      {:bucket-name (env :bucket-name)
+                      {:bucket-name (env :aws-s3-bucket-upload)
                        :key new-file-name
                        :content-type file-type
                        :expires 60
                        :method "PUT"})
-        url (str "https://" (env :bucket-name) ".s3.amazonaws.com/" new-file-name)]
+        url (str "https://" (env :aws-s3-bucket-upload) ".s3.amazonaws.com/" new-file-name)]
     {:body {:signedRequest (str signed-url)
             :url url
             :filename new-file-name}}))

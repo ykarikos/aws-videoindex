@@ -7,10 +7,17 @@ An example Clojure web app for uploading files directly to [AWS S3](https://aws.
 
 You need to set up an AWS S3 bucket. See [Heroku documentation](https://devcenter.heroku.com/articles/s3-upload-node#initial-setup) for the initial setup. Then set the following environment variables:
 
-* `BUCKET_NAME`
+* `AWS_REGION`
 * `AWS_ACCESS_KEY_ID`
 * `AWS_SECRET_ACCESS_KEY`
-
+* `AWS_S3_BUCKET_UPLOAD`
+  AWS S3 Bucket for file uploads
+* `AWS_TRANSCODER_PIPELINE`
+  Pipeline ID in AWS Elastic Transcoder that reads from `AWS_S3_BUCKET_NAME_UPLOAD`
+* `AWS_TRANSCODER_MP4`
+  Job ID in AWS Elastic Transcoder for converting video to MP4 format and JPG thumbnails
+* `AWS_TRANSCODER_WEBM`
+  Job ID in AWS Elastic Transcoder for converting video to Webm format
 
 ## Running Locally
 
