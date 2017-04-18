@@ -16,14 +16,14 @@
 
 ; API
   (wrap-json-response
-    (GET "/sign-s3" [file-name file-type title date]
+    (GET "/api/sign-s3" [file-name file-type title date]
         (upload/sign-s3 file-name file-type title date)))
 
   (wrap-json-response
-    (GET "/create-job" [file-name]
+    (GET "/api/create-job" [file-name]
         (transcode/create-job file-name)))
   (wrap-json-response
-    (GET "/get-job-status" [id]
+    (GET "/api/get-job-status" [id]
         (transcode/get-job-status id)))
 
   (ANY "*" []
