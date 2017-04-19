@@ -1,4 +1,5 @@
 (ns aws-videoindex.web
+  (:gen-class)
   (:require [compojure.core :refer :all]
             [compojure.handler :refer [site]]
             [compojure.route :as route]

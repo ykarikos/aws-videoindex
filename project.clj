@@ -13,6 +13,7 @@
   :plugins [[environ/environ.lein "0.3.1"]
             [lein-ring "0.11.0"]]
   :main ^:skip-aot aws-videoindex.web
+  :aot :all
   :ring {:handler aws-videoindex.web/app}
   :hooks [environ.leiningen.hooks]
   :uberjar-name "aws-videoindex-standalone.jar"
