@@ -8,12 +8,14 @@
 </head>
 <body onLoad="initialize()">
 <h1>Video upload</h1>
-<form>
+
+<form id="upload-form">
 <p>Select a video file: <input type="file" id="file-input"></p>
 <p>Title: <input id="title" style="width: 300px;"></p>
 <p>Date: <input id="date" type="date"></p>
-<p><input type="submit" value="Upload" id="upload-button"></p>
-<p id="status"></p>
+<p><input type="submit" value="Upload" id="upload-button">
+  <img id="spinner" src="spinner.svg"></p>
+<ul id="status"></ul>
 </form>
 
 </body>

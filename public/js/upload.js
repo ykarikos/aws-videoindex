@@ -1,15 +1,69 @@
-function uploadFile(file, signedRequest, url) {
+function addStatus(text) {
   const status = document.getElementById('status');
-  status.textContent = "Upload started...";
+  const li = document.createElement('li');
+  li.textContent = text;
+  status.appendChild(li);
+}
+
+var intervalId;
+
+function addStatusCheck(id) {
+  intervalId = setInterval(function() {
+    checkTranscodeStatus(id)
+  }, 5000);
+}
+
+function checkTranscodeStatus(id) {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/api/get-job-status?id=${id}`);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        addStatus('Transcode: ' + response.status);
+        if (response.status === 'Complete') {
+          clearInterval(intervalId);
+          document.getElementById('spinner').style = "display: none;";
+        }
+      } else {
+        console.erro('Could not check transcode status');
+      }
+    }
+  };
+  xhr.send();
+}
+
+function startTranscode(filename) {
+  addStatus('Transcode started...');
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `/api/create-job?file-name=${filename}`);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        addStatus('Transcode in progress');
+        addStatusCheck(response.id);
+      } else {
+        alert('Could not transcode video.');
+      }
+    }
+  };
+  xhr.send();
+}
+
+function uploadFile(transcode, file, signedRequest, filename) {
+  document.getElementById('spinner').style = "display: inline;";
+  addStatus('Upload started...');
 
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', signedRequest);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        status.textContent = "Upload done." + url;
-      }
-      else{
+        addStatus('Upload done.');
+        transcode(filename);
+      } else {
         alert('Could not upload file.');
       }
     }
@@ -17,16 +71,15 @@ function uploadFile(file, signedRequest, url) {
   xhr.send(file);
 }
 
-function getSignedRequest(file, title, date) {
+function getSignedRequest(transcode, file, title, date) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', `/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
-        uploadFile(file, response.signedRequest, response.url);
-      }
-      else{
+        uploadFile(transcode, file, response.signedRequest, response.filename);
+      } else {
         alert('Could not get signed URL.');
       }
     }
@@ -46,7 +99,7 @@ function isVideo(type) {
   return /^video\//.test(type);
 }
 
-function startUpload() {
+function startUpload(transcode) {
   const title = document.getElementById('title').value;
   const date = document.getElementById('date').value;
   const files = document.getElementById('file-input').files;
@@ -68,12 +121,12 @@ function startUpload() {
     return alert('Invalid date format. Expecting YYYY-MM-DD');
   }
 
-  getSignedRequest(file, title, date);
+  getSignedRequest(transcode, file, title, date);
 }
 
 function initialize() {
   document.getElementById("upload-button").onclick = (e) => {
     e.preventDefault();
-    startUpload();
+    startUpload(startTranscode);
   };
 }

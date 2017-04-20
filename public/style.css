@@ -3,10 +3,36 @@ body {
 	font-family: 'Raleway', sans-serif;
 	color: #eee;
 	padding: 10px;
+	letter-spacing: 0.07em;
 }
+
+#upload-form input[type="submit"] {
+	padding: 7px 18px;
+	background: #eee;
+	border: 0 none;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+#upload-form #spinner {
+	margin-left: 0.5em;
+	vertical-align: bottom;
+	display: none;
+}
+
+ul#status {
+	padding: 0;
+}
+
+ul#status li {
+	list-style: none;
+	margin-bottom: 0.5em;
+}
+
 video {
 	width: 350px;
 }
+
 ul.video {
 	padding: 0;
 }
