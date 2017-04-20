@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
- <title>Upload to AWS S3</title>
- <meta name="viewport" content="width=device-width, initial-scale=1">
-
- <script type="text/javascript">
 function uploadFile(file, signedRequest, url) {
   const status = document.getElementById('status');
   status.textContent = "Upload started...";
@@ -84,17 +77,3 @@ function initialize() {
     startUpload();
   };
 }
- </script>
-</head>
-<body onLoad="initialize()">
-<h1>Upload a video</h1>
-<form>
-<p>Select a video file: <input type="file" id="file-input"></p>
-<p>Title: <input id="title" style="width: 300px;"></p>
-<p>Date: <input id="date" type="date"></p>
-<p><input type="submit" value="Upload" id="upload-button"></p>
-<p id="status"></p>
-</form>
-
-</body>
-</html>

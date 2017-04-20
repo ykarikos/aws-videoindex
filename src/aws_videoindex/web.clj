@@ -12,8 +12,7 @@
             [aws-videoindex.upload :as upload]))
 
 (defroutes app-routes
-  (GET "/upload" []
-       (slurp (io/resource "upload.html")))
+  (route/files "/")
 
 ; API
   (wrap-json-response

@@ -1,0 +1,22 @@
+body {
+	background: #567;
+	font-family: 'Raleway', sans-serif;
+	color: #eee;
+	padding: 10px;
+}
+video {
+	width: 350px;
+}
+ul.video {
+	padding: 0;
+}
+ul.video li {
+	display: inline-block;
+	list-style: none;
+	margin: 15px 10px;
+}
+h1 {
+	margin-right: 20px;
+	padding-bottom: 5px;
+	border-bottom: #ccc 1px dotted;
+}
