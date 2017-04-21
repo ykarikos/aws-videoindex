@@ -12,6 +12,8 @@ You need to set up an AWS S3 bucket. See [Heroku documentation](https://devcente
 * `AWS_SECRET_ACCESS_KEY`
 * `AWS_S3_BUCKET_UPLOAD`
   AWS S3 Bucket for file uploads
+* `AWS_S3_BUCKET_TARGET`
+  AWS S3 Bucket for transcoded videos
 * `AWS_TRANSCODER_PIPELINE`
   Pipeline ID in AWS Elastic Transcoder that reads from `AWS_S3_BUCKET_NAME_UPLOAD`
 * `AWS_TRANSCODER_MP4`
