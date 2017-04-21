@@ -1,8 +1,18 @@
 (ns aws-videoindex.indexgenerator
-  (:require [clojure.java.io :as io]
+  (:require [amazonica.aws.s3 :as s3]
+            [environ.core :refer [env]]
+            [clojure.java.io :as io]
             [hiccup.core :as h]))
 
-(def url-base "/video/")
+(defn- generate-url
+  [path object]
+  (let [signed-url (s3/generate-presigned-url
+                     {:bucket-name (env :aws-s3-bucket-target)
+                      :key (str path object)
+                      :expires 60
+                      :method "GET"})]
+    (str signed-url)))
+
 
 (def thumbnail "thumbnail-00001.jpg")
 
@@ -18,10 +28,10 @@
     [:li
       [:div
         [:video {:controls true
-                 :poster (str url-base prefix thumbnail)
+                 :poster (generate-url prefix thumbnail)
                  :preload "none"}
           (for [format video-formats]
-            [:source {:src (str url-base prefix (:ext format))
+            [:source {:src (generate-url prefix (:ext format))
                       :type (:type format)}])]]
       [:div date]
       [:div title]]))
