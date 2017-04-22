@@ -39,8 +39,7 @@ ul.video {
 ul.video li {
 	display: inline-block;
 	list-style: none;
-	margin-bottom: 20px;
-	margin-top: 5px;
+	margin: 5px 20px 20px 0;
 }
 
 ul.video li div {
