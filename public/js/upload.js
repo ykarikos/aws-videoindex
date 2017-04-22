@@ -18,7 +18,7 @@ function checkTranscodeStatus(id) {
   .then(response => response.json())
   .then(response => {
     addStatus('Transcode: ' + response.status);
-    if (response.status === 'Complete') {
+    if (response.status === 'Complete' || response.status === 'Error') {
       clearInterval(intervalId);
       document.getElementById('spinner').style = "display: none;";
     }
