@@ -10,81 +10,59 @@ var intervalId;
 function addStatusCheck(id) {
   intervalId = setInterval(function() {
     checkTranscodeStatus(id)
-  }, 5000);
+  }, 10000);
 }
 
 function checkTranscodeStatus(id) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', `/api/get-job-status?id=${id}`);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        addStatus('Transcode: ' + response.status);
-        if (response.status === 'Complete') {
-          clearInterval(intervalId);
-          document.getElementById('spinner').style = "display: none;";
-        }
-      } else {
-        console.erro('Could not check transcode status');
-      }
+  fetch(`/api/get-job-status?id=${id}`)
+  .then(response => response.json())
+  .then(response => {
+    addStatus('Transcode: ' + response.status);
+    if (response.status === 'Complete') {
+      clearInterval(intervalId);
+      document.getElementById('spinner').style = "display: none;";
     }
-  };
-  xhr.send();
+  }).catch(err => {
+    console.error('Could not check transcode status: ', err);
+  });
 }
 
 function startTranscode(filename) {
   addStatus('Transcode started...');
 
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', `/api/create-job?file-name=${filename}`);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        addStatus('Transcode in progress');
-        addStatusCheck(response.id);
-      } else {
-        alert('Could not transcode video.');
-      }
-    }
-  };
-  xhr.send();
+  fetch(`/api/create-job?file-name=${filename}`)
+  .then(response => response.json())
+  .then(response => {
+    addStatus('Transcode in progress');
+    addStatusCheck(response.id);
+  }).catch(err => {
+    alert('Could not transcode video.');
+    console.error(err);
+  });
 }
 
 function uploadFile(transcode, file, signedRequest, filename) {
   document.getElementById('spinner').style = "display: inline;";
   addStatus('Upload started...');
 
-  const xhr = new XMLHttpRequest();
-  xhr.open('PUT', signedRequest);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        addStatus('Upload done.');
-        transcode(filename);
-      } else {
-        alert('Could not upload file.');
-      }
-    }
-  };
-  xhr.send(file);
+  fetch(signedRequest, {method: 'PUT'})
+  .then(response => {
+    addStatus('Upload done.');
+    transcode(filename);
+  }).catch(err => {
+    alert('Could not upload file.');
+    console.error(err);
+  });
 }
 
 function getSignedRequest(transcode, file, title, date) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', `/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        uploadFile(transcode, file, response.signedRequest, response.filename);
-      } else {
-        alert('Could not get signed URL.');
-      }
-    }
-  };
-  xhr.send();
+  fetch(`/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`)
+  .then(response => response.json())
+  .then(response => uploadFile(transcode, file, response.signedRequest, response.filename))
+  .catch(err => {
+    alert('Could not get signed URL.');
+    console.error(err);
+  });
 }
 
 function isBlank(str) {
