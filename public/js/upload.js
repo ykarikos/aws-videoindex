@@ -14,7 +14,7 @@ function addStatusCheck(id) {
 }
 
 function checkTranscodeStatus(id) {
-  fetch(`/api/get-job-status?id=${id}`)
+  fetch(`/api/get-job-status?id=${id}`, { credentials: 'same-origin' })
   .then(response => response.json())
   .then(response => {
     addStatus('Transcode: ' + response.status);
@@ -30,7 +30,7 @@ function checkTranscodeStatus(id) {
 function startTranscode(filename) {
   addStatus('Transcode started...');
 
-  fetch(`/api/create-job?file-name=${filename}`)
+  fetch(`/api/create-job?file-name=${filename}`, { credentials: 'same-origin' })
   .then(response => response.json())
   .then(response => {
     addStatus('Transcode in progress');
@@ -45,7 +45,7 @@ function uploadFile(transcode, file, signedRequest, filename) {
   document.getElementById('spinner').style = "display: inline;";
   addStatus('Upload started...');
 
-  fetch(signedRequest, {method: 'PUT'})
+  fetch(signedRequest, { method: 'PUT' })
   .then(response => {
     addStatus('Upload done.');
     transcode(filename);
@@ -56,7 +56,9 @@ function uploadFile(transcode, file, signedRequest, filename) {
 }
 
 function getSignedRequest(transcode, file, title, date) {
-  fetch(`/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`)
+  const url = `/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`;
+
+  fetch(url, { credentials: 'same-origin' })
   .then(response => response.json())
   .then(response => uploadFile(transcode, file, response.signedRequest, response.filename))
   .catch(err => {
