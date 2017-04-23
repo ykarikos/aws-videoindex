@@ -45,8 +45,10 @@ function uploadFile(transcode, file, signedRequest, filename) {
   document.getElementById('spinner').style = "display: inline;";
   addStatus('Upload started...');
 
-  fetch(signedRequest, { method: 'PUT' })
-  .then(response => {
+  fetch(signedRequest, {
+    method: 'PUT',
+    body: file
+  }).then(response => {
     addStatus('Upload done.');
     transcode(filename);
   }).catch(err => {
