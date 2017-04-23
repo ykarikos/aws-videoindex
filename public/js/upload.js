@@ -49,8 +49,12 @@ function uploadFile(transcode, file, signedRequest, filename) {
     method: 'PUT',
     body: file
   }).then(response => {
-    addStatus('Upload done.');
-    transcode(filename);
+    if (response.ok) {
+      addStatus('Upload done.');
+      transcode(filename);
+    } else {
+      alert('Could not upload file.');
+    }
   }).catch(err => {
     alert('Could not upload file.');
     console.error(err);
