@@ -41,7 +41,7 @@ function startTranscode(filename) {
   });
 }
 
-function uploadFile(transcode, file, signedRequest, filename) {
+function uploadFile(file, signedRequest, filename) {
   document.getElementById('spinner').style = "display: inline;";
   addStatus('Upload started...');
 
@@ -51,7 +51,7 @@ function uploadFile(transcode, file, signedRequest, filename) {
   }).then(response => {
     if (response.ok) {
       addStatus('Upload done.');
-      transcode(filename);
+      startTranscode(filename);
     } else {
       alert('Could not upload file.');
     }
@@ -61,12 +61,12 @@ function uploadFile(transcode, file, signedRequest, filename) {
   });
 }
 
-function getSignedRequest(transcode, file, title, date) {
+function getSignedRequest(file, title, date) {
   const url = `/api/sign-s3?file-name=${file.name}&file-type=${file.type}&title=${title}&date=${date}`;
 
   fetch(url, { credentials: 'same-origin' })
   .then(response => response.json())
-  .then(response => uploadFile(transcode, file, response.signedRequest, response.filename))
+  .then(response => uploadFile(file, response.signedRequest, response.filename))
   .catch(err => {
     alert('Could not get signed URL.');
     console.error(err);
@@ -85,7 +85,7 @@ function isVideo(type) {
   return /^video\//.test(type);
 }
 
-function startUpload(transcode) {
+function startUpload() {
   const title = document.getElementById('title').value;
   const date = document.getElementById('date').value;
   const files = document.getElementById('file-input').files;
@@ -107,12 +107,12 @@ function startUpload(transcode) {
     return alert('Invalid date format. Expecting YYYY-MM-DD');
   }
 
-  getSignedRequest(transcode, file, title, date);
+  getSignedRequest(file, title, date);
 }
 
 function initialize() {
   document.getElementById("upload-button").onclick = (e) => {
     e.preventDefault();
-    startUpload(startTranscode);
+    startUpload();
   };
 }
