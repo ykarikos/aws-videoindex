@@ -3,7 +3,9 @@
             [environ.core :refer [env]]))
 
 (defn- get-file-suffix [name]
-  (re-find #"\.[a-z0-9]+$" name))
+  (->> name
+    (re-find #"\.[a-zA-Z0-9]+$")
+    (clojure.string/lower-case)))
 
 (defn sign-s3 [file-name file-type title date]
   (let [suffix (get-file-suffix file-name)
