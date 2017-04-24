@@ -13,14 +13,22 @@ function addStatusCheck(id) {
   }, 10000);
 }
 
+function statusReady() {
+  clearInterval(intervalId);
+  document.getElementById('spinner').style = "display: none;";
+
+  const uploadNew = document.getElementById('upload-new');
+  uploadNew.style = "display: inline-block;";
+  uploadNew.disabled = false;
+}
+
 function checkTranscodeStatus(id) {
   fetch(`/api/get-job-status?id=${id}`, { credentials: 'same-origin' })
   .then(response => response.json())
   .then(response => {
     addStatus('Transcode: ' + response.status);
     if (response.status === 'Complete' || response.status === 'Error') {
-      clearInterval(intervalId);
-      document.getElementById('spinner').style = "display: none;";
+      statusReady();
     }
   }).catch(err => {
     console.error('Could not check transcode status: ', err);
@@ -85,6 +93,12 @@ function isVideo(type) {
   return /^video\//.test(type);
 }
 
+function disableFormElements() {
+  for (let e of document.querySelectorAll('#upload-form input')) {
+    e.disabled = true;
+  }
+}
+
 function startUpload() {
   const title = document.getElementById('title').value;
   const date = document.getElementById('date').value;
@@ -107,6 +121,7 @@ function startUpload() {
     return alert('Invalid date format. Expecting YYYY-MM-DD');
   }
 
+  disableFormElements();
   getSignedRequest(file, title, date);
 }
 
