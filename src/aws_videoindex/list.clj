@@ -8,6 +8,16 @@
                      :delimiter "/"})]
     (:common-prefixes response)))
 
+(defn- get-thumbnail
+  [prefix]
+  (let [thumbnail "thumbnail-00002.jpg"
+        thumbnail-path (str prefix thumbnail)
+        response (s3/list-objects (env :aws-s3-bucket-target) thumbnail-path)
+        object-count (-> response :object-summaries count)]
+    (if (= 1 object-count)
+      thumbnail
+      "thumbnail-00001.jpg")))
+
 (defn- to-int
   [num]
   (Integer. num))
@@ -17,7 +27,8 @@
         date (str (to-int day) "." (to-int month) "." year)]
     {:prefix object-name
      :date date
-     :title title}))
+     :title title
+     :thumbnail (get-thumbnail object-name)}))
 
 (defn get-videos []
   (let [objects (get-object-list)]

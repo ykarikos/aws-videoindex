@@ -14,8 +14,6 @@
     (str signed-url)))
 
 
-(def thumbnail "thumbnail-00001.jpg")
-
 (def video-formats
   [{:type "video/webm"
     :ext "video.webm"}
@@ -23,7 +21,7 @@
     :ext "video.mp4"}])
 
 (defn- video-to-item
-  [{:keys [prefix date title]}]
+  [{:keys [prefix date title thumbnail]}]
   (h/html
     [:li
       [:div
