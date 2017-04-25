@@ -1,5 +1,7 @@
 # AWS Videoindex
 
+> How to share videos of the kids so that the close relatives can browse them easily but they will not be available in the public internet, e.g. in Youtube?
+
 A web application for storing and viewing videos in [AWS S3](https://aws.amazon.com/s3/). It uses [AWS Elastic Transcoder](https://aws.amazon.com/elastictranscoder/) to transcode videos in HTML5 compatible video formats: MP4 and Webm.
 
 This project is based on the [AWS S3 Direct Upload Example](https://github.com/ykarikos/aws-s3-direct-upload-example).
