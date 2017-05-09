@@ -89,8 +89,8 @@ function dateValid(str) {
   return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(str);
 }
 
-function isVideo(type) {
-  return /^video\//.test(type);
+function isVideo(file) {
+  return /^video\//.test(file.type) || /\.mts$/i.test(file.name);
 }
 
 function disableFormElements() {
@@ -108,7 +108,7 @@ function startUpload() {
   if (file == null) {
     return alert('No file selected.');
   }
-  if (!isVideo(file.type)) {
+  if (!isVideo(file)) {
     return alert('Not a video file.');
   }
   if (isBlank(title)) {
