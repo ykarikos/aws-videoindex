@@ -10,13 +10,18 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [aws-videoindex.transcode :as transcode]
             [aws-videoindex.upload :as upload]
-            [aws-videoindex.indexgenerator :as index]
+            [aws-videoindex.htmlgenerator :as html]
             [aws-videoindex.list :as list]))
 
 (defroutes app-routes
   (GET "/" []
     (-> (list/get-videos)
-      (index/generate-page)))
+      (html/generate-index-page)))
+
+  (GET "/v/:id" [id]
+    (-> (str id "/")
+      list/parse-object
+      html/generate-video-page))
 
   (route/files "/")
 

@@ -22,10 +22,10 @@
   [num]
   (Integer. num))
 
-(defn- parse-object [object-name]
-  (let [[_ year month day title] (re-find #"^([0-9]{4})-([0-9]{2})-([0-9]{2})_(.*)/$" object-name)
+(defn parse-object [object-name]
+  (let [[_ prefix year month day title] (re-find #"^(([0-9]{4})-([0-9]{2})-([0-9]{2})_(.*))/$" object-name)
         date (str (to-int day) "." (to-int month) "." year)]
-    {:prefix object-name
+    {:prefix prefix
      :date date
      :title title
      :thumbnail (get-thumbnail object-name)}))

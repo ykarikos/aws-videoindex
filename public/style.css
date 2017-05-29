@@ -29,7 +29,7 @@ ul#status li {
 	margin-bottom: 0.5em;
 }
 
-video {
+ul.video li video, ul.video li img {
 	width: 350px;
 }
 
@@ -50,4 +50,21 @@ h1 {
 	margin-right: 20px;
 	padding-bottom: 5px;
 	border-bottom: #ccc 1px dotted;
+}
+
+#back {
+	background: #740;
+  width: 50px;
+  font-size: 20pt;
+  margin-bottom: 20px;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: bold;	padding: 5px;
+}
+
+#back a {
+	text-decoration: none;
+  color: #ccc;
+  width: 50px;
+  display: inline-block;
 }

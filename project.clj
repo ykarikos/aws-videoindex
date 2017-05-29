@@ -9,7 +9,8 @@
                  [amazonica "0.3.95"]
                  [ring/ring-json "0.4.0"]
                  [cheshire "5.6.3"] ; explicit cheshire dependency added to fix java.lang.NoSuchMethodError: com.fasterxml.jackson.databind.JavaType.isReferenceType()
-                 [hiccup "1.0.5"]]
+                 [hiccup "1.0.5"]
+                 [ring/ring-codec "1.0.1"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.3.1"]
             [lein-ring "0.11.0"]]
