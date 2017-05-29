@@ -41,11 +41,12 @@
 (defn- video-to-link-item
   [{:keys [prefix date title thumbnail]}]
   (h/html
-    [:div
-      [:a {:href (str "/v/" (codec/url-encode prefix))}
-        [:img {:src (generate-url prefix thumbnail)}]]]
-    [:div date]
-    [:div title]))
+    [:li
+      [:div
+        [:a {:href (str "/v/" (codec/url-encode prefix))}
+          [:img {:src (generate-url prefix thumbnail)}]]]
+      [:div date]
+      [:div title]]))
 
 (defn- generate-body [videos years]
   (h/html
@@ -53,8 +54,9 @@
       (list
         [:h1 year]
         [:ul.video
-          [:li
-            (map video-to-link-item (filter #(= year (get-year %1)) videos))]]))))
+          (->> videos
+            (filter #(= year (get-year %1)))
+            (map video-to-link-item)) ]))))
 
 (defn generate-video-page
   [video]
