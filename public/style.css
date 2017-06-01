@@ -29,7 +29,7 @@ ul#status li {
 	margin-bottom: 0.5em;
 }
 
-ul.video li video, ul.video li img {
+video, ul.video li img {
 	width: 350px;
 }
 
@@ -56,7 +56,7 @@ h1 {
 	background: #740;
   width: 50px;
   font-size: 20pt;
-  margin-bottom: 20px;
+  margin-top: 20px;
   text-align: center;
   border-radius: 10px;
   font-weight: bold;	padding: 5px;

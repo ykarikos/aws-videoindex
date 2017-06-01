@@ -32,8 +32,7 @@
         (for [format video-formats]
           [:source {:src (generate-url prefix (:ext format))
                     :type (:type format)}])]]
-    [:div date]
-    [:div title]))
+    [:div date]))
 
 (defn- get-year [video]
   (-> video :prefix (subs 0 4)))
@@ -61,8 +60,12 @@
 (defn generate-video-page
   [video]
   (str (slurp (io/resource "index-frontmatter.html"))
-    "<div id=\"back\"><a href=\"/\">«</a></div>"
+    (h/html
+      [:h1 (:title video)])
     (video-to-item video)
+    (h/html
+      [:div {:id "back"}
+        [:a {:href "/"} "«"]])
     (slurp (io/resource "index-backmatter.html"))))
 
 (defn generate-index-page [videos]
