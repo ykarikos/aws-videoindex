@@ -1,4 +1,10 @@
+var oldStatus = "";
+
 function addStatus(text) {
+  if (text == oldStatus) {
+    return;
+  }
+  oldStatus = text;
   const status = document.getElementById('status');
   const li = document.createElement('li');
   li.textContent = text;
@@ -10,7 +16,7 @@ var intervalId;
 function addStatusCheck(id) {
   intervalId = setInterval(function() {
     checkTranscodeStatus(id)
-  }, 10000);
+  }, 5000);
 }
 
 function statusReady() {
