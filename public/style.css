@@ -33,6 +33,13 @@ video, ul.video li img {
 	width: 350px;
 }
 
+@media (min-width: 768px) {
+	video {
+		width: 90%;
+		max-width: 1024px;
+	}
+}
+
 ul.video {
 	padding: 0;
 }
