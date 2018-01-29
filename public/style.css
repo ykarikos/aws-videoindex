@@ -29,8 +29,14 @@ ul#status li {
 	margin-bottom: 0.5em;
 }
 
-video, ul.video li img {
-	width: 350px;
+ul.video li img {
+	max-width: 350px;
+	max-height: 220px;
+}
+
+video {
+	max-width: 350px;
+	max-height: 450px;
 }
 
 @media (min-width: 768px) {
@@ -47,6 +53,7 @@ ul.video li {
 	display: inline-block;
 	list-style: none;
 	margin: 5px 20px 20px 0;
+	width: 355px;
 }
 
 ul.video li div {
