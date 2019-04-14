@@ -34,4 +34,4 @@
   (let [objects (get-object-list)]
     (->> objects
       (map parse-object)
-      (sort #(compare (:prefix %1) (:prefix %2))))))
+      (sort #(compare (:prefix %2) (:prefix %1))))))

@@ -23,7 +23,7 @@
 
 
 (defn- video-to-item
-  [{:keys [prefix date title thumbnail]}]
+  [{:keys [prefix date _ thumbnail]}]
   (h/html
     [:div
       [:video {:controls true
@@ -55,7 +55,7 @@
         [:ul.video
           (->> videos
             (filter #(= year (get-year %1)))
-            (map video-to-link-item)) ]))))
+            (map video-to-link-item))]))))
 
 (defn generate-video-page
   [video]
